@@ -10,4 +10,7 @@ function goToBandDetails(idBand)
     window.open('bandDetails.html', '_self', 'location=yes');
 }
 
-
+function goToEvents()
+{
+	window.open('events.html', '_self', 'location=yes');
+}

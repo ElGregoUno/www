@@ -113,4 +113,80 @@ function showBand(band)
     
 }
 
-
+function showConcertAndFestival(idDiv, events)
+{
+    if(events !== null)
+    {
+        var div = document.createElement("div");
+        div.setAttribute("class", "list media-list");
+        document.getElementById(idDiv).appendChild(div);
+        
+        var h2 = document.createElement("h2");
+        h2.setAttribute("class", "titleEventForBand");
+        div.appendChild(h2);        
+        
+        switch(idDiv)
+        {
+            case "eventsIncoming":
+                var textnode = document.createTextNode("Events incoming");
+                h2.appendChild(textnode);                
+                break;
+        
+            case "pastEvents":
+                var textnode = document.createTextNode("Past events");
+                h2.appendChild(textnode);
+                break;
+        }
+        
+        var ul = document.createElement("ul");
+        div.append(ul);
+        
+        for (var i = 0; i < events.length; i++) {
+            var li = document.createElement("li");
+            ul.appendChild(li);
+            
+            var a = document.createElement("a");
+            a.setAttribute("class", "item-link item-content");
+            a.setAttribute("onclick", "goToEventDetails(" + events[i].idEvent + ")");
+            li.appendChild(a);
+            
+            var div1 = document.createElement("div");
+            div1.setAttribute("class", "item-media");
+            a.appendChild(div1);
+            
+            var img = document.createElement("img");
+            img.style.maxWidth = IMG_MAX_WIDTH;
+            img.setAttribute("src", $imgFolder + events[i].imagePath);
+            img.setAttribute("width", "70%");
+            img.setAttribute("alt", "");            
+            
+            div1.appendChild(img);
+            
+            var div2 = document.createElement("div");
+            div2.setAttribute("class", "eventTitle");
+            div2.setAttribute("class", "item-inner");
+            a.appendChild(div2);
+            
+            var div3 = document.createElement("div");
+            div3.setAttribute("class", "item-title-row");
+            div2.appendChild(div3);
+            
+            var h2 = document.createElement("h3");
+            div3.appendChild(h2);
+            
+            var textnode = document.createTextNode(events[i].dateTime + " " +  events[i].eventName); 
+            h2.appendChild(textnode);
+            
+            var div4 = document.createElement("div");
+            div4.setAttribute("class", "item-title");
+            div3.appendChild(div4);
+            
+            var div5 = document.createElement("div");
+            div5.setAttribute("class", "item-text");
+            div2.appendChild(div5);
+            
+            var textnode2 = document.createTextNode(events[i].eventDescription); 
+            div5.appendChild(textnode2);
+        }
+    }    
+}
