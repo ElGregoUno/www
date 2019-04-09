@@ -14,3 +14,9 @@ function goToEvents()
 {
 	window.open('events.html', '_self', 'location=yes');
 }
+
+function goToEventDetails(idEvent)
+{
+    localStorage.setItem("idEvent", idEvent);
+    window.open('eventDetails.html', '_self', 'location=yes');
+}

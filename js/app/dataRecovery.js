@@ -7,7 +7,7 @@ function getBands()
         //headers: {"Authorization": "Token API_KEY"}, 
         url: root + "api/band/read.php",
         success: function (data) { 
-            var bands = data;
+            var bands = data;			
             
             showBands(bands);
         }, 
@@ -15,25 +15,31 @@ function getBands()
             console.log("Error " + request["status"] + ": " + request["statusText"]);
         } 
     }); 
+	
+	
 }
 
 function getBand(idBand)
 {
-    $.ajax({ 
-        url: root + "api/band/read_one.php",
-        type : 'POST',
-        data : 'idBand=' + idBand,
-        //headers: {"Authorization": "Token API_KEY"}, 
-        
-        success: function (data) { 
-            var band = data;
-            
-            showBand(band);
-        }, 
-        error: function(request) { 
-            console.log("Error " + request["status"] + ": " + request["statusText"]);
-        } 
-    }); 
+	
+		$.ajax({ 
+			url: root + "api/band/read_one.php",
+			type : 'POST',
+			data : 'idBand=' + idBand,
+			//headers: {"Authorization": "Token API_KEY"}, 
+			
+			success: function (data) { 
+				var band = data;
+				
+				showBand(band);
+			}, 
+			error: function(request) { 
+				console.log("Error " + request["status"] + ": " + request["statusText"]);
+			} 
+		}); 
+		
+	
+    
 }
 
 function getEventsIncoming()
@@ -66,6 +72,52 @@ function getEventsIncoming()
 	});
 }	
 
+function getIncomingEventsByIdBand(idBand)
+{
+    $.ajax({ 
+        url : root + "api/event_has_band/read_events_band.php",
+        type : 'POST',
+        data : 'idBand=' + idBand, 
+        //headers: {"Authorization": "Token API_KEY"}, 
+        
+        success: function (data) { 
+            if(data.length > 0)
+            {
+                var events = data;
+            
+                showConcertAndFestival("eventsIncoming", events);
+            }
+        }, 
+        error: function(request) { 
+            console.log("Error " + request["status"] + ": " + request["statusText"]);
+        } 
+    }); 
+}
+
+function getPastEventsByIdBand(idBand)
+{
+    $.ajax({ 
+        url : root + "api/event_has_band/read_past_events_band.php",
+        type : 'POST',
+        data : 'idBand=' + idBand, 
+        //headers: {"Authorization": "Token API_KEY"}, 
+        
+        success: function (data) { 
+            
+            if(data.length > 0)
+            {
+                var events = data;
+            
+                showConcertAndFestival("pastEvents", events);
+            }
+            
+        }, 
+        error: function(request) { 
+            console.log("Error " + request["status"] + ": " + request["statusText"]);
+        } 
+    }); 
+}
+
 function getConcertAndFestival()
 {
     $.ajax({ 
@@ -88,6 +140,68 @@ function getConcertAndFestival()
             }
             
             showConcertAndFestival("events", eventsIncoming);
+        }, 
+        error: function(request) { 
+            console.log("Error " + request["status"] + ": " + request["statusText"]);
+        } 
+    }); 
+}
+
+function getMembersOfBand()
+{
+    $.ajax({ 
+        url: root + "api/member/read_bands_members.php",
+        type : 'POST',
+        data : 'idBand=' + localStorage.idBand,
+        //headers: {"Authorization": "Token API_KEY"}, 
+        
+        success: function (data) { 
+            var members = data;
+            
+            showMembersOfBand(members);
+        }, 
+        error: function(request) { 
+            console.log("Error " + request["status"] + ": " + request["statusText"]);
+        } 
+    }); 
+}
+
+function getEvent(idEvent)
+{
+    $.ajax({ 
+        url : root + "api/event/read_one.php",
+        type : 'POST',
+        data : 'idEvent=' + idEvent,
+        //headers: {"Authorization": "Token API_KEY"}, 
+        
+        success: function (data) { 
+            var event = data;
+            
+            showEvent(event);
+        }, 
+        error: function(request) { 
+            console.log("Error " + request["status"] + ": " + request["statusText"]);
+        } 
+    }); 
+}
+
+function getBandsForOneEvent(idEvent)
+{
+    $.ajax({ 
+        url : root + "api/event_has_band/read_bands_event.php",
+        type : 'POST',
+        data : 'idEvent=' + idEvent, 
+        //headers: {"Authorization": "Token API_KEY"}, 
+        
+        success: function (data) { 
+            
+            if(data.length > 0)
+            {
+                var bands = data;
+            
+                showBandsForEvent(bands);
+            }
+            
         }, 
         error: function(request) { 
             console.log("Error " + request["status"] + ": " + request["statusText"]);

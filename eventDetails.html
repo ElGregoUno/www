@@ -16,26 +16,9 @@
         <link rel="stylesheet" href="css/f7/framework7-icons.css">
         <!-- Path to your custom app styles-->
         <link rel="stylesheet" href="css/app/my-app.css">
-		<script type="text/javascript">
-			window.addEventListener('load', () => {
-                // 1st, we set the correct status when the page loads
-                navigator.onLine ? ChangeState(true) : ChangeState(false);
-				createLocalDatabase();
-
-                // now we listen for network status changes
-                window.addEventListener('online', () => {
-                    ChangeState(true);
-                    //Online();
-                });
-
-                window.addEventListener('offline', () => {
-                    ChangeState(false);
-                });
-            });
-		</script>
         
     </head>
-    <body onload="getBands()" class="color-theme-black">
+    <body onload="getEvent(parseInt(localStorage.idEvent))" class="color-theme-black">
         <!-- App root element -->
         <div id="app">
             <div class="view view-main">
@@ -54,22 +37,25 @@
                                 <button onclick="" class="col button">LOG OUT</button>
                             </div>
                             <div id="signIn">
-                                <button onclick="" class="col button">SIGN IN</button>
+                                <button onclick="goToInscription()" class="col button">SIGN IN</button>
                             </div>
                             <div class="subnavbar">
                                 <div class="subnavbar-inner">
                                     <div class="segmented segmented-raised">
-                                        <button class="col button open-login" onclick="goToEvents()">Events</button>
-                                        <button class="col button open-login" onclick="goToIndex()">Bands</button>
+                                        <button  class="col button open-login" onclick="goToEvents()">Events</button>
+                                        <button  class="col button open-login" onclick="goToIndex()">Bands</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="page-content">
-                        <div id="bands">
+                        
+                        <div id="event">
                             
                         </div>
+                        <div id="bands"></div>
+                        
                     </div>
                 </div>
             </div>
@@ -77,19 +63,15 @@
         <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
         <!-- Path to Framework7 Library JS-->
         <script type="text/javascript" src="js/f7/framework7.min.js"></script>
-        <!-- Path to app js-->
+        <!-- Path to your app js-->
         <script type="text/javascript" src="js/app/my-app.js"></script> 
-		<script type="text/javascript" src="js/app/location.js"></script> 
-		<script type="text/javascript" src="js/app/dataDisplay.js"></script> 
-		<script type="text/javascript" src="js/app/dataRecovery.js"></script> 
+        <script type="text/javascript" src="js/app/dataRecovery.js"></script> 
+        <script type="text/javascript" src="js/app/dataDisplay.js"></script> 
+        <script type="text/javascript" src="js/app/location.js"></script> 
         <script type="text/javascript" src="js/index.js"></script> 
-		<script type="text/javascript" src="js/app/offline.js"></script> 
-		
-		<script type="text/javascript">
-			//var isOnline;
-			/*setInterval(function(){
-				checkConnection(window);
-			}, 3000);*/
-		</script>
+        
+        <script type="text/javascript">
+            
+        </script>
      </body>
 </html>
