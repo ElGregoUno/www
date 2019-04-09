@@ -16,9 +16,28 @@
         <link rel="stylesheet" href="css/f7/framework7-icons.css">
         <!-- Path to your custom app styles-->
         <link rel="stylesheet" href="css/app/my-app.css">
-        
+        <script>
+			window.addEventListener('load', () => {
+				var isOnline;
+                // 1st, we set the correct status when the page loads
+                navigator.onLine ? ChangeState(true) : ChangeState(false);
+				
+
+                // now we listen for network status changes
+                window.addEventListener('online', () => {
+                    ChangeState(true);
+					//dropQueries();
+                    Online();
+                });
+
+                window.addEventListener('offline', () => {
+                    ChangeState(false);
+					
+                });
+            });
+		</script>
     </head>
-    <body onload="getConcertAndFestival()" class="color-theme-black">
+    <body onload="showConcertAndFestival()" class="color-theme-black">
         <!-- App root element -->
         <div id="app">
             <div class="view view-main">
@@ -68,9 +87,27 @@
         <script type="text/javascript" src="js/app/dataDisplay.js"></script> 
         <script type="text/javascript" src="js/app/location.js"></script> 
         <script type="text/javascript" src="js/index.js"></script> 
+		<script type="text/javascript" src="js/app/offline.js"></script> 
         
         <script type="text/javascript">
-            
+            /*function Online()
+            {
+				createLocalDatabase();
+				
+            }
+					
+			if(checkConnection())
+			{
+                Online();
+                // affichage des films
+                
+            }
+            else
+            {
+                //Si n'a aucune donnée en local
+                // appli inutilisable
+                //showBands();
+            }*/
         </script>
      </body>
 </html>

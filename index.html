@@ -18,24 +18,27 @@
         <link rel="stylesheet" href="css/app/my-app.css">
 		<script type="text/javascript">
 			window.addEventListener('load', () => {
+				var isOnline;
                 // 1st, we set the correct status when the page loads
                 navigator.onLine ? ChangeState(true) : ChangeState(false);
-				createLocalDatabase();
+				
 
                 // now we listen for network status changes
                 window.addEventListener('online', () => {
                     ChangeState(true);
-                    //Online();
+					//dropQueries();
+                    Online();
                 });
 
                 window.addEventListener('offline', () => {
                     ChangeState(false);
+					
                 });
             });
 		</script>
         
     </head>
-    <body onload="getBands()" class="color-theme-black">
+    <body onload="showBands()" class="color-theme-black">
         <!-- App root element -->
         <div id="app">
             <div class="view view-main">
@@ -86,6 +89,25 @@
 		<script type="text/javascript" src="js/app/offline.js"></script> 
 		
 		<script type="text/javascript">
+		
+			function Online()
+            {
+				createLocalDatabase();
+				
+            }
+					
+			if(checkConnection())
+			{
+                Online();
+                // affichage des films
+                
+            }
+            else
+            {
+                //Si n'a aucune donnée en local
+                // appli inutilisable
+                //showBands();
+            }
 			//var isOnline;
 			/*setInterval(function(){
 				checkConnection(window);

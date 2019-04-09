@@ -2,20 +2,22 @@ var root = "http://gregpoc.florian-mudespacher.ch/";
 
 function getBands()
 {
-    $.ajax({ 
-        type: "POST", 
-        //headers: {"Authorization": "Token API_KEY"}, 
-        url: root + "api/band/read.php",
-        success: function (data) { 
-            var bands = data;			
-            
-            showBands(bands);
-        }, 
-        error: function(request) { 
-            console.log("Error " + request["status"] + ": " + request["statusText"]);
-        } 
-    }); 
-	
+	if(parseInt(localStorage.isOnline) == 0)
+	{
+		$.ajax({ 
+			type: "POST", 
+			//headers: {"Authorization": "Token API_KEY"}, 
+			url: root + "api/band/read.php",
+			success: function (data) { 
+				var bands = data;			
+				
+				fillLocalBandTable(bands);
+			}, 
+			error: function(request) { 
+				console.log("Error " + request["status"] + ": " + request["statusText"]);
+			} 
+		}); 
+	}
 	
 }
 
@@ -42,75 +44,22 @@ function getBand(idBand)
     
 }
 
-function getEventsIncoming()
-{
-	
-	$.ajax({ 
-        url: root + "api/event/read_concert_festival_incoming.php",
-        type : 'POST',
-        //headers: {"Authorization": "Token API_KEY"}, 
-        
-        success: function (data) { 
-            var today = new Date().toJSON(); 
-            today = new Date().toJSON().substring(0,19).replace('T',' ');
-            
-            var events = data;
-            var eventsIncoming = []; 
-            
-            for (var i = 0; i < events.length; i++) {
-                if (events[i].dateTime >= today)
-                {
-                    eventsIncoming.push(events[i]);
-                }
-            }
-            
-            showConcertAndFestival("events", eventsIncoming);
-        }, 
-        error: function(request) { 
-            console.log("Error " + request["status"] + ": " + request["statusText"]);
-        } 
-	});
-}	
 
-function getIncomingEventsByIdBand(idBand)
+function getEventsBands()
 {
     $.ajax({ 
-        url : root + "api/event_has_band/read_events_band.php",
+        url : root + "api/event_has_band/read.php",
         type : 'POST',
-        data : 'idBand=' + idBand, 
         //headers: {"Authorization": "Token API_KEY"}, 
         
         success: function (data) { 
             if(data.length > 0)
             {
-                var events = data;
-            
-                showConcertAndFestival("eventsIncoming", events);
+                var results = data;
+				fillLocalEventForBand(results);
+				fillLocalBandForEvent(results);
+                //showConcertAndFestivalIncoming();
             }
-        }, 
-        error: function(request) { 
-            console.log("Error " + request["status"] + ": " + request["statusText"]);
-        } 
-    }); 
-}
-
-function getPastEventsByIdBand(idBand)
-{
-    $.ajax({ 
-        url : root + "api/event_has_band/read_past_events_band.php",
-        type : 'POST',
-        data : 'idBand=' + idBand, 
-        //headers: {"Authorization": "Token API_KEY"}, 
-        
-        success: function (data) { 
-            
-            if(data.length > 0)
-            {
-                var events = data;
-            
-                showConcertAndFestival("pastEvents", events);
-            }
-            
         }, 
         error: function(request) { 
             console.log("Error " + request["status"] + ": " + request["statusText"]);
@@ -121,7 +70,7 @@ function getPastEventsByIdBand(idBand)
 function getConcertAndFestival()
 {
     $.ajax({ 
-        url: root + "api/event/read_concert_festival_incoming.php",
+        url: root + "api/event/read.php",
         type : 'POST',
         //headers: {"Authorization": "Token API_KEY"}, 
         
@@ -133,13 +82,9 @@ function getConcertAndFestival()
             var eventsIncoming = []; 
             
             for (var i = 0; i < events.length; i++) {
-                if (events[i].dateTime >= today)
-                {
-                    eventsIncoming.push(events[i]);
-                }
+                eventsIncoming.push(events[i]);
             }
-            
-            showConcertAndFestival("events", eventsIncoming);
+            fillLocalEventTable(eventsIncoming);
         }, 
         error: function(request) { 
             console.log("Error " + request["status"] + ": " + request["statusText"]);
@@ -159,25 +104,6 @@ function getMembersOfBand()
             var members = data;
             
             showMembersOfBand(members);
-        }, 
-        error: function(request) { 
-            console.log("Error " + request["status"] + ": " + request["statusText"]);
-        } 
-    }); 
-}
-
-function getEvent(idEvent)
-{
-    $.ajax({ 
-        url : root + "api/event/read_one.php",
-        type : 'POST',
-        data : 'idEvent=' + idEvent,
-        //headers: {"Authorization": "Token API_KEY"}, 
-        
-        success: function (data) { 
-            var event = data;
-            
-            showEvent(event);
         }, 
         error: function(request) { 
             console.log("Error " + request["status"] + ": " + request["statusText"]);
