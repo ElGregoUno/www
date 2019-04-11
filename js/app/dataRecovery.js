@@ -21,29 +21,6 @@ function getBands()
 	
 }
 
-function getBand(idBand)
-{
-	
-		$.ajax({ 
-			url: root + "api/band/read_one.php",
-			type : 'POST',
-			data : 'idBand=' + idBand,
-			//headers: {"Authorization": "Token API_KEY"}, 
-			
-			success: function (data) { 
-				var band = data;
-				
-				showBand(band);
-			}, 
-			error: function(request) { 
-				console.log("Error " + request["status"] + ": " + request["statusText"]);
-			} 
-		}); 
-		
-	
-    
-}
-
 
 function getEventsBands()
 {
@@ -56,6 +33,8 @@ function getEventsBands()
             if(data.length > 0)
             {
                 var results = data;
+				
+				
 				fillLocalEventForBand(results);
 				fillLocalBandForEvent(results);
                 //showConcertAndFestivalIncoming();
@@ -79,12 +58,8 @@ function getConcertAndFestival()
             today = new Date().toJSON().substring(0,19).replace('T',' ');
             
             var events = data;
-            var eventsIncoming = []; 
             
-            for (var i = 0; i < events.length; i++) {
-                eventsIncoming.push(events[i]);
-            }
-            fillLocalEventTable(eventsIncoming);
+            fillLocalEventTable(events);
         }, 
         error: function(request) { 
             console.log("Error " + request["status"] + ": " + request["statusText"]);
@@ -95,15 +70,14 @@ function getConcertAndFestival()
 function getMembersOfBand()
 {
     $.ajax({ 
-        url: root + "api/member/read_bands_members.php",
+        url: root + "api/member/read.php",
         type : 'POST',
-        data : 'idBand=' + localStorage.idBand,
         //headers: {"Authorization": "Token API_KEY"}, 
         
         success: function (data) { 
             var members = data;
-            
-            showMembersOfBand(members);
+            fillLocalMemberTable(members);
+            //showMembersOfBand(members);
         }, 
         error: function(request) { 
             console.log("Error " + request["status"] + ": " + request["statusText"]);
@@ -111,26 +85,21 @@ function getMembersOfBand()
     }); 
 }
 
-function getBandsForOneEvent(idEvent)
+function getMembersInstrumentByBand()
 {
-    $.ajax({ 
-        url : root + "api/event_has_band/read_bands_event.php",
+	$.ajax({ 
+        url: root + "api/member_has_instrument/read.php",
         type : 'POST',
-        data : 'idEvent=' + idEvent, 
         //headers: {"Authorization": "Token API_KEY"}, 
         
         success: function (data) { 
-            
-            if(data.length > 0)
-            {
-                var bands = data;
-            
-                showBandsForEvent(bands);
-            }
-            
+            var members = data;
+            fillLocalMembersInstrument(members);
+            //showMembersOfBand(members);
         }, 
         error: function(request) { 
             console.log("Error " + request["status"] + ": " + request["statusText"]);
         } 
     }); 
 }
+

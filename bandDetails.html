@@ -17,7 +17,7 @@
         <!-- Path to your custom app styles-->
         <link rel="stylesheet" href="css/app/my-app.css">
     </head>
-    <body onload="getBand(parseInt(localStorage.idBand))" class="color-theme-black">
+    <body onload="showBand(parseInt(localStorage.idBand))" class="color-theme-black">
         <!-- App root element -->
         <div id="app">
             <div class="view view-main">
@@ -67,12 +67,14 @@
         <script type="text/javascript" src="js/app/dataRecovery.js"></script> 
         <script type="text/javascript" src="js/app/dataDisplay.js"></script> 
         <script type="text/javascript" src="js/app/location.js"></script> 
+		<script type="text/javascript" src="js/app/users.js"></script> 
         <script type="text/javascript" src="js/app/my-app.js"></script> 
+		<script type="text/javascript" src="js/app/offline.js"></script> 
         <script type="text/javascript" src="js/index.js"></script> 
         
         <script type="text/javascript">
                         
-            
+            showLinks();
             
             
         </script>

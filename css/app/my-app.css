@@ -9,10 +9,21 @@
     margin-right: 50px;
     margin-left: 50px;
 }
-#members{
+#members, #instruments{
     margin-right: 20px;
     margin-left:20px;
 }
+
+#listOfEventAndBand{
+	margin-left: -30px;
+}
+
+.listImg{
+	top: 50%;
+	transform: translateY(25%);
+}
+
+
 /*eventsIncoming{
     margin-right: 50px;
     margin-left: 50px;

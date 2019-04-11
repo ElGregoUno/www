@@ -26,8 +26,7 @@
                 // now we listen for network status changes
                 window.addEventListener('online', () => {
                     ChangeState(true);
-					//dropQueries();
-                    Online();
+                    //Online();
                 });
 
                 window.addEventListener('offline', () => {
@@ -38,7 +37,7 @@
 		</script>
         
     </head>
-    <body onload="showBands()" class="color-theme-black">
+    <body onload="" class="color-theme-black">
         <!-- App root element -->
         <div id="app">
             <div class="view view-main">
@@ -57,7 +56,7 @@
                                 <button onclick="" class="col button">LOG OUT</button>
                             </div>
                             <div id="signIn">
-                                <button onclick="" class="col button">SIGN IN</button>
+                                <button onclick="goToSign()" class="col button">SIGN IN</button>
                             </div>
                             <div class="subnavbar">
                                 <div class="subnavbar-inner">
@@ -85,33 +84,29 @@
 		<script type="text/javascript" src="js/app/location.js"></script> 
 		<script type="text/javascript" src="js/app/dataDisplay.js"></script> 
 		<script type="text/javascript" src="js/app/dataRecovery.js"></script> 
+		<script type="text/javascript" src="js/app/dataSynchronization.js"></script> 
+		<script type="text/javascript" src="js/app/users.js"></script> 
         <script type="text/javascript" src="js/index.js"></script> 
 		<script type="text/javascript" src="js/app/offline.js"></script> 
 		
 		<script type="text/javascript">
-		
+			setInterval(checkBands,60000);
+			
+			showLinks();
+			
 			function Online()
             {
 				createLocalDatabase();
 				
             }
-					
+					showBands();
 			if(checkConnection())
 			{
                 Online();
-                // affichage des films
                 
             }
-            else
-            {
-                //Si n'a aucune donnée en local
-                // appli inutilisable
-                //showBands();
-            }
-			//var isOnline;
-			/*setInterval(function(){
-				checkConnection(window);
-			}, 3000);*/
+			console.log(sha1(''));
+			
 		</script>
      </body>
 </html>

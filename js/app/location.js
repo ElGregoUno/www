@@ -20,3 +20,19 @@ function goToEventDetails(idEvent)
     localStorage.setItem("idEvent", idEvent);
     window.open('eventDetails.html', '_self', 'location=yes');
 }
+
+function goToMemberDetails(idBand, idUser)
+{
+    localStorage.setItem("idBand", idBand);
+    localStorage.setItem("idUser", idUser);
+    window.open('memberDetails.html', '_self', 'location=yes');
+}
+
+function goToSign()
+{
+	window.open('signIn.html', '_self', 'location=yes');
+}
+
+
+
+

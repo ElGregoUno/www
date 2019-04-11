@@ -26,7 +26,6 @@
                 // now we listen for network status changes
                 window.addEventListener('online', () => {
                     ChangeState(true);
-					//dropQueries();
                     Online();
                 });
 
@@ -37,7 +36,7 @@
             });
 		</script>
     </head>
-    <body onload="showConcertAndFestival()" class="color-theme-black">
+    <body onload="" class="color-theme-black">
         <!-- App root element -->
         <div id="app">
             <div class="view view-main">
@@ -85,29 +84,28 @@
         <script type="text/javascript" src="js/app/my-app.js"></script> 
         <script type="text/javascript" src="js/app/dataRecovery.js"></script> 
         <script type="text/javascript" src="js/app/dataDisplay.js"></script> 
+		<script type="text/javascript" src="js/app/dataSynchronization.js"></script> 
         <script type="text/javascript" src="js/app/location.js"></script> 
+		<script type="text/javascript" src="js/app/users.js"></script> 
         <script type="text/javascript" src="js/index.js"></script> 
 		<script type="text/javascript" src="js/app/offline.js"></script> 
         
         <script type="text/javascript">
-            /*function Online()
+			setInterval(checkEvents,60000);
+			
+			showLinks();
+            function Online()
             {
 				createLocalDatabase();
 				
             }
-					
+					showConcertAndFestival();
 			if(checkConnection())
 			{
                 Online();
                 // affichage des films
                 
             }
-            else
-            {
-                //Si n'a aucune donnée en local
-                // appli inutilisable
-                //showBands();
-            }*/
         </script>
      </body>
 </html>
