@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <!-- Color theme for statusbar -->
+        <meta name="theme-color" content="#2196f3">
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+
+        <!-- Your app title -->
+        <title>BandManager</title>
+        <!-- Path to Framework7 Library CSS -->
+        <link rel="stylesheet" href="css/f7/framework7.min.css">
+        <link rel="stylesheet" href="css/f7/framework7-icons.css">
+        <!-- Path to your custom app styles-->
+        <link rel="stylesheet" href="css/app/my-app.css">
+        
+    </head>
+    <body onload="" class="color-theme-black">
+        <!-- App root element -->
+        <div id="app">
+            <div class="view view-main">
+                <!-- Initial Page, "data-name" contains page name -->
+                <div data-name="home" class="page">
+                    <!-- Top Navbar -->
+                    <div class="navbar">
+                        <div class="navbar-inner">
+                            <div class="title">
+                                <button class="col button" onclick="goToIndex()">BandManager</button>
+                            </div>
+                            <div id="login">
+                                <button  class="col button open-login">LOG IN</button>
+                            </div>
+                            <div id="logout">
+                                <button onclick="" class="col button">LOG OUT</button>
+                            </div>
+                            <div class="subnavbar">
+                                <div class="subnavbar-inner">
+                                    <div class="segmented segmented-raised">
+                                        <button  class="col button open-login" onclick="goToEvents()">Events</button>
+                                        <button  class="col button open-login" onclick="goToIndex()">Bands</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-content">
+                        <div class="list no-hairlines-md">
+                            <ul>
+                                <li class="item-content item-input item-input-with-info">
+                                    <div class="item-media">
+                                        <i class="icon demo-list-icon"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-floating-label">email</div>
+                                        <div class="item-input-wrap">
+                                            <input id="email" type="text" placeholder="Your email" required>
+                                            <span class="input-clear-button"></span>
+                                            <div class="item-input-info">Required</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content item-input item-input-with-info">
+                                    <div class="item-media">
+                                        <i class="icon demo-list-icon"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-floating-label">First name</div>
+                                        <div class="item-input-wrap">
+                                            <input id="firstName" type="text" placeholder="Your first name" required>
+                                            <span class="input-clear-button"></span>
+                                            <div class="item-input-info">Required</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content item-input item-input-with-info">
+                                    <div class="item-media">
+                                        <i class="icon demo-list-icon"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-floating-label">Last name</div>
+                                        <div class="item-input-wrap">
+                                            <input id="lastName" type="text" placeholder="Your last name" required>
+                                            <span class="input-clear-button"></span>
+                                            <div class="item-input-info">Required</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content item-input item-input-with-info">
+                                    <div class="item-media">
+                                        <i class="icon demo-list-icon"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-floating-label">Password</div>
+                                        <div class="item-input-wrap">
+                                            <input id="password" type="text" placeholder="Your password" required>
+                                            <span class="input-clear-button"></span>
+                                            <div class="item-input-info">Required</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content item-input item-input-with-info">
+                                    <div class="item-media">
+                                        <i class="icon demo-list-icon"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-floating-label">Password validation</div>
+                                        <div class="item-input-wrap">
+                                            <input id="passwordValidation" type="password" placeholder="Your password" required>
+                                            <span class="input-clear-button"></span>
+                                            <div class="item-input-info">Required</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <button class="col button button-big button-fill" onclick="signIn()">Sign in</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        <!-- Path to Framework7 Library JS-->
+        <script type="text/javascript" src="js/f7/framework7.min.js"></script>
+        <!-- Path to your app js-->
+        <script type="text/javascript" src="js/app/my-app.js"></script> 
+        <script type="text/javascript" src="js/app/location.js"></script> 
+		<script type="text/javascript" src="js/app/users.js"></script> 
+		
+        <script type="text/javascript" src="js/index.js"></script> 
+        
+        <script type="text/javascript">
+		
+			if(localStorage.isLogged == "true")
+			{
+				document.getElementById("login").hidden = true;
+				document.getElementById("logout").hidden = false;
+			}
+			else
+			{
+				document.getElementById("logout").hidden = true;
+				document.getElementById("login").hidden = false;
+			}
+			
+            function signIn()
+            {
+                const email = document.getElementById("email").value;
+				const firstName = document.getElementById("firstName").value;
+				const lastName = document.getElementById("lastName").value;
+				const password = document.getElementById("password").value;
+				const passwordValidation = document.getElementById("passwordValidation").value;
+				
+				if(password == passwordValidation)
+					addUser(email, sha1(password), firstName, lastName, "");
+				else
+					console.log("pas marché");
+            }
+        </script>
+     </body>
+</html>
