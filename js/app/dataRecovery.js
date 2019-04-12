@@ -46,6 +46,28 @@ function getEventsBands()
     }); 
 }
 
+function getUsers()
+{
+    $.ajax({ 
+        url : root + "api/user/read.php",
+        type : 'POST',
+        //headers: {"Authorization": "Token API_KEY"}, 
+        
+        success: function (data) { 
+            if(data.length > 0)
+            {
+                var results = data;
+				
+				console.log(results);
+				fillLocalUserTable(results);
+            }
+        }, 
+        error: function(request) { 
+            console.log("Error " + request["status"] + ": " + request["statusText"]);
+        } 
+    }); 
+}
+
 function getConcertAndFestival()
 {
     $.ajax({ 

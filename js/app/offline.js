@@ -6,6 +6,7 @@ function ChangeState(online) {
     console.log(isOnline);
 	if(online)
 	{
+		pushUser();
 		localStorage.setItem("isOnline", 0);
 	}
 	else
@@ -61,12 +62,59 @@ function dropEventTable()
     });
 }
 
+function createUserTable()
+{
+	
+	db.transaction(function (tx) {
+		const query = "CREATE TABLE IF NOT EXISTS user (idUser integer not null, email text not null, firstName text not null, lastName text not null, hashPassword text not null, salt text not null, PRIMARY KEY(idUser))";
+		tx.executeSql(query,[], 
+			//function(tx,results){console.log("Successfully memberHasInstrument created")},
+			//function(tx,error){console.log(error)}
+		);
+    });
+}
+
+function dropUserTable()
+{
+	db.transaction(function (tx) {
+			tx.executeSql('DROP TABLE user',[], 
+				//function(tx,results){console.log("Successfully events dropped")},
+				//function(tx,error){console.log("Could not drop events")}
+			);
+    });
+}
+
+function createUserToAddTable()
+{
+	db.transaction(function (tx) {
+		const query = "CREATE TABLE IF NOT EXISTS userToAdd (idUser integer not null, email text not null, firstName text not null, lastName text not null, hashPassword text not null, salt text not null, PRIMARY KEY(idUser))";
+		tx.executeSql(query,[], 
+			//function(tx,results){console.log("Successfully memberHasInstrument created")},
+			//function(tx,error){console.log(error)}
+		);
+    });
+}
+
+function dropUserToAddTable()
+{
+	db.transaction(function (tx) {
+			tx.executeSql('DROP TABLE userToAdd',[], 
+				//function(tx,results){console.log("Successfully events dropped")},
+				//function(tx,error){console.log("Could not drop events")}
+			);
+    });
+}
+
 function dropQueries()
 {	
 	
 	dropBandTable();
 	
 	dropEventTable();
+	
+	dropUserTable();
+	
+	dropUserToAddTable();
 	
 	db.transaction(function (tx) {
 			tx.executeSql('DROP TABLE member',[], 
@@ -90,14 +138,18 @@ function dropQueries()
     });
 }
 
+
 function createLocalDatabase()
 {   
 	dropQueries();
 	
 	createBandTable();
     
-	
 	createEventTable();
+	
+	createUserTable();
+	
+	createUserToAddTable();
 	
 	db.transaction(function (tx) {
 		const query = "CREATE TABLE IF NOT EXISTS bandHasEvent (idBand integer not null, idEvent integer not null, schedule text not null, eventName text not null, address text not null, dateTime text not null, eventDescription text not null, mandatory integer not null, imagePath text not null, isPublic integer not null, type text not null, PRIMARY KEY(idBand, idEvent))";
@@ -136,6 +188,7 @@ function createLocalDatabase()
 	getEventsBands();
 	getMembersOfBand();
 	getMembersInstrumentByBand();
+	getUsers();
 }
 
 function fillLocalBandTable(bands)
@@ -270,5 +323,43 @@ function fillLocalMembersInstrument(members)
 				//function(tx,error){console.log(error)}
 			);
 		}
+    });
+}
+
+function fillLocalUserTable(users)
+{
+	db.transaction(function (tx) {
+		for (var i = 0; i < users.length; i++) {
+			var query = `INSERT INTO user (idUser, email, firstName, lastName, hashPassword, salt) VALUES (${users[i].idUser}, "${users[i].email}", "${users[i].firstName}", "${users[i].lastName}", "${users[i].hashPassword}", "${users[i].salt}")`;
+			tx.executeSql(query,[], 
+				//function(tx,results){console.log("Successfully memberHasInstrument filled")},
+				//function(tx,error){console.log(error)}
+			);
+		}
+    });
+
+	
+}
+
+function insertOneInUserTable(email, firstName, lastName, hashPassword, salt)
+{
+	db.transaction(function (tx) {
+		var query = `INSERT INTO user (email, firstName, lastName, hashPassword, salt) VALUES ("${email}", "${firstName}", "${lastName}", "${hashPassword}", "${salt}")`;
+		tx.executeSql(query,[], 
+			//function(tx,results){console.log("Successfully memberHasInstrument filled")},
+			//function(tx,error){console.log(error)}
+		);
+		
+    });
+}
+
+function insertOneInUserToAddTable(email, firstName, lastName, hashPassword, salt)
+{
+	db.transaction(function (tx) {
+		var query = `INSERT INTO userToAdd (email, firstName, lastName, hashPassword, salt) VALUES ("${email}", "${firstName}", "${lastName}", "${hashPassword}", "${salt}")`;
+		tx.executeSql(query,[], 
+			//function(tx,results){console.log("Successfully memberHasInstrument filled")},
+			//function(tx,error){console.log(error)}
+		);
     });
 }

@@ -16,12 +16,44 @@ function showLinks()
 	}
 }
 
-function addUser(email, hashPassword, firstName, lastName, salt)
+function logIn(email, pwd)
+{
+	db.transaction(function (tx) {
+		tx.executeSql('SELECT * FROM user', [], 
+			function (tx, results) {
+				var users = results.rows;
+							
+				if(users.length > 0)
+				{
+					for(var i = 0; i < users.length; i++)
+					{
+						if(sha1(pwd + sha1(users[i].salt)) == sha1(users[i].hashPassword + sha1(users[i].salt)))
+						{
+							localStorage.setItem("isLogged", "true");
+							showLinks();
+							//goToIndex();
+						}
+					}
+				}
+				
+			}
+		);
+	});
+}
+
+function logOut()
+{
+	localStorage.setItem("isLogged", "false");
+	showLinks();
+	//goToIndex();
+}
+
+function addUser(email, firstName, lastName, hashPassword)
 {
 	$.ajax({ 
         url : root + "api/user/add_user.php",
         type : 'POST',
-		data : 'email=' + email + '&hashPassword=' + hashPassword + '&firstName=' + firstName + '&lastName=' + lastName + '&salt=' + salt,
+		data : 'email=' + email + '&hashPassword=' + hashPassword + '&firstName=' + firstName + '&lastName=' + lastName + '&salt=swdsed',
         //headers: {"Authorization": "Token API_KEY"}, 
         
         success: function (data) { 
@@ -32,6 +64,30 @@ function addUser(email, hashPassword, firstName, lastName, salt)
             console.log("Error " + request["status"] + ": " + request["statusText"]);
         } 
     }); 
+}
+
+
+
+function pushUser()
+{
+	db.transaction(function (tx) {
+        tx.executeSql('SELECT * FROM userToAdd', [], 
+			function (tx, results) {
+				var users = results.rows;
+				
+				if(users.length > 0)
+				{
+					for (var i = 0; i < users.length; i++)
+					{
+						addUser(users[i].email, users[i].firstName, users[i].lastName, users[i].hashPassword)
+					}
+					
+				}
+			}
+		);
+	});
+	dropUserToAddTable();
+	createUserToAddTable();
 }
 
 

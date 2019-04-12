@@ -95,7 +95,7 @@
                                     <div class="item-inner">
                                         <div class="item-title item-floating-label">Password</div>
                                         <div class="item-input-wrap">
-                                            <input id="password" type="text" placeholder="Your password" required>
+                                            <input id="password" type="password" placeholder="Your password" required>
                                             <span class="input-clear-button"></span>
                                             <div class="item-input-info">Required</div>
                                         </div>
@@ -127,11 +127,22 @@
         <!-- Path to your app js-->
         <script type="text/javascript" src="js/app/my-app.js"></script> 
         <script type="text/javascript" src="js/app/location.js"></script> 
+		<script type="text/javascript" src="js/app/offline.js"></script> 
 		<script type="text/javascript" src="js/app/users.js"></script> 
 		
         <script type="text/javascript" src="js/index.js"></script> 
         
         <script type="text/javascript">
+			var $$ = Dom7;
+			var app = new Framework7();
+			
+			$$('.open-login').on('click', function () {
+                app.dialog.login('Connectez-vous', function (email, password) {
+					logIn(email, sha1(password));
+					goToIndex();
+				});
+			});
+		
 		
 			if(localStorage.isLogged == "true")
 			{
@@ -146,6 +157,7 @@
 			
             function signIn()
             {
+			
                 const email = document.getElementById("email").value;
 				const firstName = document.getElementById("firstName").value;
 				const lastName = document.getElementById("lastName").value;
@@ -153,7 +165,18 @@
 				const passwordValidation = document.getElementById("passwordValidation").value;
 				
 				if(password == passwordValidation)
-					addUser(email, sha1(password), firstName, lastName, "");
+				{
+					if(checkConnection())
+					{
+						addUser(email, firstName, lastName, sha1(password));
+					}
+					else
+					{
+						//insertOneInUserTable(email, firstName, lastName, sha1(password), "");
+						//fillLocalUserToAddTable(email, firstName, lastName, sha1(password), salt);
+					}
+					
+				}
 				else
 					console.log("pas marché");
             }
