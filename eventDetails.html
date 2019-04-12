@@ -34,7 +34,7 @@
                                 <button  class="col button open-login">LOG IN</button>
                             </div>
                             <div id="logout">
-                                <button onclick="" class="col button">LOG OUT</button>
+                                <button onclick="logOut()" class="col button">LOG OUT</button>
                             </div>
                             <div id="signIn">
                                 <button onclick="goToInscription()" class="col button">SIGN IN</button>
@@ -72,6 +72,15 @@
         <script type="text/javascript" src="js/index.js"></script> 
         
         <script type="text/javascript">
+			var $$ = Dom7;
+			var app = new Framework7();
+			
+			$$('.open-login').on('click', function () {
+                app.dialog.login('Connectez-vous', function (email, password) {
+					logIn(email, sha1(password));
+				});
+			});
+		
             showLinks();
         </script>
      </body>
